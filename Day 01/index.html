@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Patterns Lab — Mahmoud Awad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+ <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ══ HEADER ══════════════════════════════════ -->
+  <header class="site-header">
+    <div class="site-header__badge">// DESIGN PATTERNS · INTERACTIVE LAB</div>
+    <h1>Design Patterns Lab</h1>
+    <p class="site-header__sub">SINGLETON · FACTORY — visualised in the browser</p>
+    <div class="pattern-pills">
+      <span class="pattern-pill pattern-pill--singleton">Singleton Pattern</span>
+      <span class="pattern-pill pattern-pill--factory">Factory Pattern</span>
+    </div>
+  </header>
+
+  <!-- ══ QUESTIONS ════════════════════════════════ -->
+  <div class="q-section">
+
+    <!-- ────────────────────────────────────────────
+         Q1 — Singleton CEO
+    ──────────────────────────────────────────── -->
+    <div class="q-card" data-pattern="singleton" id="q1">
+      <div class="q-card__header">
+        <div class="q-card__meta">
+          <div class="q-card__number">QUESTION 01</div>
+          <div class="q-card__title">CEO — Singleton Pattern</div>
+          <div class="q-card__desc">A company has only ONE CEO. No matter how many times you try to create a new CEO, you always get the same instance back. Try it below.</div>
+        </div>
+        <span class="q-card__badge">Singleton</span>
+      </div>
+
+      <div class="q-card__body">
+        <!-- Code -->
+        <div class="code-panel">
+          <div class="code-panel__label">// CEO.js</div>
+          <div class="code-block"><pre><code><span class="kw">class</span> <span class="cls">CEO</span> {
+  <span class="fn">constructor</span>(name, age, address) {
+    <span class="kw">if</span> (<span class="cls">CEO</span>.instance) {
+      <span class="kw">return</span> <span class="cls">CEO</span>.instance;
+    }
+    <span class="kw2">this</span>.name    = name;
+    <span class="kw2">this</span>.age     = age;
+    <span class="kw2">this</span>.address = address;
+    <span class="cls">CEO</span>.instance = <span class="kw2">this</span>;
+  }
+}
+
+<span class="cmt">// Only the FIRST call creates an instance</span>
+<span class="kw">const</span> ceo1 = <span class="kw">new</span> <span class="cls">CEO</span>(<span class="str">"Mahmoud"</span>, <span class="num">25</span>, <span class="str">"Alexandria"</span>);
+<span class="kw">const</span> ceo2 = <span class="kw">new</span> <span class="cls">CEO</span>(<span class="str">"Ahmed"</span>, <span class="num">30</span>, <span class="str">"Cairo"</span>);
+
+console.<span class="fn">log</span>(ceo1 === ceo2); <span class="cmt">// true</span></code></pre></div>
+        </div>
+
+        <!-- Playground -->
+        <div class="play-panel">
+          <div class="play-panel__label">// INTERACTIVE PLAYGROUND</div>
+          <div class="input-group">
+            <label>CEO #1 (created first)</label>
+            <div class="input-row">
+              <input class="inp" id="q1-name1" placeholder="Name" value="Mahmoud" />
+              <input class="inp" id="q1-age1"  placeholder="Age"  value="25" type="number" style="width:60px;flex:0;" />
+              <input class="inp" id="q1-addr1" placeholder="Address" value="Alexandria" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label>CEO #2 (will be ignored)</label>
+            <div class="input-row">
+              <input class="inp" id="q1-name2" placeholder="Name" value="Ahmed" />
+              <input class="inp" id="q1-age2"  placeholder="Age"  value="30" type="number" style="width:60px;flex:0;" />
+              <input class="inp" id="q1-addr2" placeholder="Address" value="Cairo" />
+            </div>
+          </div>
+          <button class="btn-run" onclick="runQ1()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            RUN
+          </button>
+          <div class="output-terminal">
+            <div class="output-terminal__top">
+              <div class="dot dot--red"></div><div class="dot dot--yellow"></div><div class="dot dot--green"></div>
+              <span class="output-terminal__title">output</span>
+            </div>
+            <div class="output-lines" id="q1-output">
+              <div class="output-line output-line--empty">// Press RUN to execute</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insight band -->
+      <div class="insight-band">
+        <div class="insight-card insight-card--same">
+          <div class="insight-card__label">SAME REFERENCE</div>
+          <div class="insight-card__value">ceo1 === ceo2 → true</div>
+        </div>
+        <div class="insight-card insight-card--diff">
+          <div class="insight-card__label">DATA IGNORED</div>
+          <div class="insight-card__value">CEO #2 values never stored</div>
+        </div>
+        <div class="insight-card insight-card--note">
+          <div class="insight-card__label">WHY SINGLETON?</div>
+          <div class="insight-card__value">Guarantees one global instance — perfect for CEO, config, DB connection</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────
+         Q2 — Factory Vehicles
+    ──────────────────────────────────────────── -->
+    <div class="q-card" data-pattern="factory" id="q2">
+      <div class="q-card__header">
+        <div class="q-card__meta">
+          <div class="q-card__number">QUESTION 02</div>
+          <div class="q-card__title">Vehicle Shop — Factory Pattern</div>
+          <div class="q-card__desc">A car shop handles Cars, Trucks, and Motorcycles daily. The Factory creates the right vehicle object without exposing the constructor logic. Select a type and build a vehicle.</div>
+        </div>
+        <span class="q-card__badge">Factory</span>
+      </div>
+
+      <div class="q-card__body">
+        <!-- Code -->
+        <div class="code-panel">
+          <div class="code-panel__label">// VehicleFactory.js</div>
+          <div class="code-block"><pre><code><span class="kw">class</span> <span class="cls">VehicleFactory</span> {
+  <span class="fn">createVehicle</span>(type, brand, model) {
+    <span class="kw">switch</span> (type.<span class="fn">toLowerCase</span>()) {
+      <span class="kw">case</span> <span class="str">"car"</span>:
+        <span class="kw">return new</span> <span class="cls">Car</span>(type, brand, model);
+      <span class="kw">case</span> <span class="str">"truck"</span>:
+        <span class="kw">return new</span> <span class="cls">Truck</span>(type, brand, model);
+      <span class="kw">case</span> <span class="str">"motorcycle"</span>:
+        <span class="kw">return new</span> <span class="cls">Motorcycle</span>(type, brand, model);
+    }
+  }
+}
+
+<span class="kw">const</span> factory = <span class="kw">new</span> <span class="cls">VehicleFactory</span>();
+<span class="kw">const</span> v1 = factory.<span class="fn">createVehicle</span>(
+  <span class="str">"car"</span>, <span class="str">"Toyota"</span>, <span class="str">"Corolla"</span>
+);</code></pre></div>
+        </div>
+
+        <!-- Playground -->
+        <div class="play-panel">
+          <div class="play-panel__label">// BUILD A VEHICLE</div>
+          <div class="input-group">
+            <label>Vehicle Type</label>
+            <select class="inp" id="q2-type">
+              <option value="car">🚗 Car</option>
+              <option value="truck">🚛 Truck</option>
+              <option value="motorcycle">🏍️ Motorcycle</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Brand &amp; Model</label>
+            <div class="input-row">
+              <input class="inp" id="q2-brand" placeholder="Brand" value="Toyota" />
+              <input class="inp" id="q2-model" placeholder="Model" value="Corolla" />
+            </div>
+          </div>
+          <button class="btn-run" onclick="runQ2()" style="--accent:var(--green);background:var(--green);">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            CREATE VEHICLE
+          </button>
+          <div class="output-terminal">
+            <div class="output-terminal__top">
+              <div class="dot dot--red"></div><div class="dot dot--yellow"></div><div class="dot dot--green"></div>
+              <span class="output-terminal__title">output</span>
+            </div>
+            <div class="output-lines" id="q2-output">
+              <div class="output-line output-line--empty">// Press CREATE VEHICLE to execute</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────
+         Q3 — Factory Toys
+    ──────────────────────────────────────────── -->
+    <div class="q-card" data-pattern="factory" id="q3" style="--accent:var(--yellow);">
+      <div class="q-card__header">
+        <div class="q-card__meta">
+          <div class="q-card__number">QUESTION 03</div>
+          <div class="q-card__title">Toy Factory — Factory Pattern</div>
+          <div class="q-card__desc">ToyFactory creates ToyDuck (color, price) or ToyCar (color, price, name) using prototype-based constructors. Select a toy type and fill in its properties.</div>
+        </div>
+        <span class="q-card__badge" style="color:var(--yellow);">Factory</span>
+      </div>
+
+      <div class="q-card__body">
+        <!-- Code -->
+        <div class="code-panel">
+          <div class="code-panel__label">// ToyFactory.js</div>
+          <div class="code-block"><pre><code><span class="kw">function</span> <span class="cls">ToyDuck</span>(color, price) {
+  <span class="kw2">this</span>.color = color;
+  <span class="kw2">this</span>.price = price;
+}
+
+<span class="kw">function</span> <span class="cls">ToyCar</span>(color, price, name) {
+  <span class="kw2">this</span>.color = color;
+  <span class="kw2">this</span>.price = price;
+  <span class="kw2">this</span>.name  = name;
+}
+
+<span class="cls">ToyFactory</span>.prototype.<span class="fn">createToy</span> =
+  <span class="kw">function</span>(type, color, price, name) {
+  <span class="kw">switch</span> (type.<span class="fn">toLowerCase</span>()) {
+    <span class="kw">case</span> <span class="str">"duck"</span>:
+      <span class="kw">return new</span> <span class="cls">ToyDuck</span>(color, price);
+    <span class="kw">case</span> <span class="str">"car"</span>:
+      <span class="kw">return new</span> <span class="cls">ToyCar</span>(color, price, name);
+    <span class="kw">default</span>:
+      <span class="kw">throw new</span> <span class="cls">Error</span>(<span class="str">"Invalid type"</span>);
+  }
+};</code></pre></div>
+        </div>
+
+        <!-- Playground -->
+        <div class="play-panel">
+          <div class="play-panel__label">// CREATE A TOY</div>
+          <div class="input-group">
+            <label>Toy Type</label>
+            <select class="inp" id="q3-type" onchange="toggleToyName()">
+              <option value="duck">🦆 Duck</option>
+              <option value="car">🚗 Car</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Color &amp; Price</label>
+            <div class="input-row">
+              <input class="inp" id="q3-color" placeholder="Color" value="yellow" />
+              <input class="inp" id="q3-price" placeholder="Price" value="50" type="number" style="width:80px;flex:0;" />
+            </div>
+          </div>
+          <div class="input-group" id="q3-name-group" style="display:none;">
+            <label>Car Name (ToyCar only)</label>
+            <input class="inp" id="q3-name" placeholder="Name" value="Racing Car" />
+          </div>
+          <button class="btn-run" onclick="runQ3()" style="background:var(--yellow);color:#111;">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            CREATE TOY
+          </button>
+          <div class="output-terminal">
+            <div class="output-terminal__top">
+              <div class="dot dot--red"></div><div class="dot dot--yellow"></div><div class="dot dot--green"></div>
+              <span class="output-terminal__title">output</span>
+            </div>
+            <div class="output-lines" id="q3-output">
+              <div class="output-line output-line--empty">// Press CREATE TOY to execute</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────
+         Q4 — Singleton ConfigureVals
+    ──────────────────────────────────────────── -->
+    <div class="q-card" data-pattern="singleton" id="q4">
+      <div class="q-card__header">
+        <div class="q-card__meta">
+          <div class="q-card__number">QUESTION 04</div>
+          <div class="q-card__title">ConfigureVals — Singleton (IIFE Closure)</div>
+          <div class="q-card__desc">getConfiguration() uses an IIFE closure to ensure only one ConfigureVals instance ever exists. Second call always returns the first instance. Try creating two configs below.</div>
+        </div>
+        <span class="q-card__badge">Singleton · IIFE</span>
+      </div>
+
+      <div class="q-card__body">
+        <!-- Code -->
+        <div class="code-panel">
+          <div class="code-panel__label">// ConfigureVals.js</div>
+          <div class="code-block"><pre><code><span class="kw">class</span> <span class="cls">ConfigureVals</span> {
+  <span class="fn">constructor</span>(
+    xpoint = <span class="num">0</span>,
+    ypoint = <span class="num">0</span>,
+    shape  = <span class="kw">null</span>
+  ) {
+    <span class="kw2">this</span>.xpoint = xpoint;
+    <span class="kw2">this</span>.ypoint = ypoint;
+    <span class="kw2">this</span>.shape  = shape;
+  }
+}
+
+<span class="kw">const</span> getConfiguration = (<span class="kw">function</span> () {
+  <span class="kw">let</span> instance = <span class="kw">null</span>;
+  <span class="kw">return function</span>(xpoint, ypoint, shape) {
+    <span class="kw">if</span> (!instance) {
+      instance = <span class="kw">new</span> <span class="cls">ConfigureVals</span>(
+        xpoint, ypoint, shape
+      );
+    }
+    <span class="kw">return</span> instance;
+  };
+})(); <span class="cmt">// ← IIFE executes immediately</span></code></pre></div>
+        </div>
+
+        <!-- Playground -->
+        <div class="play-panel">
+          <div class="play-panel__label">// TEST SINGLETON CONFIG</div>
+          <div class="input-group">
+            <label>Config #1 (stored)</label>
+            <div class="input-row">
+              <input class="inp" id="q4-x1" placeholder="xpoint" value="10" type="number" style="flex:0;width:70px;" />
+              <input class="inp" id="q4-y1" placeholder="ypoint" value="20" type="number" style="flex:0;width:70px;" />
+              <input class="inp" id="q4-s1" placeholder="shape"  value="circle" />
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Config #2 (ignored — same instance returned)</label>
+            <div class="input-row">
+              <input class="inp" id="q4-x2" placeholder="xpoint" value="50" type="number" style="flex:0;width:70px;" />
+              <input class="inp" id="q4-y2" placeholder="ypoint" value="60" type="number" style="flex:0;width:70px;" />
+              <input class="inp" id="q4-s2" placeholder="shape"  value="square" />
+            </div>
+          </div>
+          <button class="btn-run" onclick="runQ4()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            RUN CONFIG
+          </button>
+          <div class="output-terminal">
+            <div class="output-terminal__top">
+              <div class="dot dot--red"></div><div class="dot dot--yellow"></div><div class="dot dot--green"></div>
+              <span class="output-terminal__title">output</span>
+            </div>
+            <div class="output-lines" id="q4-output">
+              <div class="output-line output-line--empty">// Press RUN CONFIG to execute</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insight band -->
+      <div class="insight-band">
+        <div class="insight-card insight-card--same">
+          <div class="insight-card__label">SAME REFERENCE</div>
+          <div class="insight-card__value">config1 === config2 → true</div>
+        </div>
+        <div class="insight-card insight-card--diff">
+          <div class="insight-card__label">IIFE CLOSURE</div>
+          <div class="insight-card__value">instance hidden in closure — not global</div>
+        </div>
+        <div class="insight-card insight-card--note">
+          <div class="insight-card__label">VS Q1 SINGLETON</div>
+          <div class="insight-card__value">Q1 stores on class (CEO.instance). Q4 hides instance inside closure — more encapsulated</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.q-section -->
+
+  <!-- ══ FOOTER ══════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-creds">
+      <div class="footer-cred"><span>DEV</span><span>Mahmoud Awad Saad</span></div>
+      <div class="footer-cred"><span>PROGRAM</span><span>ITI — ICC | MEARN Track</span></div>
+      <div class="footer-cred"><span>Inctructor</span><span>Amira Abdelhady</span></div>
+      <div class="footer-cred"><span>PATTERNS</span><span>Singleton · Factory</span></div>
+      <div class="footer-cred"><span>YEAR</span><span>2026</span></div>
+    </div>
+    <div class="footer-socials">
+      <a class="footer-social" href="https://github.com/mahmoud112001" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a class="footer-social" href="https://www.linkedin.com/in/mahmoud-awad-795b02203/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a class="footer-social" href="mailto:mahmoudawad112001@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+    <div class="footer-copy">/* Design Patterns Lab · JavaScript · ITI ICC Program  ·Inctructor: Amira Abdelhady· 2026 */</div>
+  </footer>
+
+</div><!-- /.page -->
+
+<script src="./script.js"></script>
+</body>
+</html>
