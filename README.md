@@ -13,9 +13,11 @@ This project is an educational resource exploring **SOLID principles** and **Jav
 - ✅ **Detailed explanations** — theory, problems, and improvements for each pattern
 - ✅ **Architectural impact charts** — metrics showing principle effectiveness
 
+
 ---
 
 ## 👨‍💻 Project Credits
+
 
 | **Role** | **Details** |
 |----------|-----------|
@@ -30,6 +32,7 @@ This project is an educational resource exploring **SOLID principles** and **Jav
 - **GitHub:** [github.com/mahmoud112001](https://github.com/mahmoud112001)
 - **LinkedIn:** [linkedin.com/in/mahmoud-awad-795b02203](https://www.linkedin.com/in/mahmoud-awad-795b02203/)
 - **Email:** [mahmoudawad112001@gmail.com](mailto:mahmoudawad112001@gmail.com)
+
 
 ---
 
