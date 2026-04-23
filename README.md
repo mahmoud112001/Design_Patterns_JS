@@ -12,6 +12,7 @@ This project is an educational resource exploring **SOLID principles** and **Jav
 - ✅ **Visual comparisons** — side-by-side "violated" vs. "applied" code
 - ✅ **Detailed explanations** — theory, problems, and improvements for each pattern
 - ✅ **Architectural impact charts** — metrics showing principle effectiveness
+  
 
 
 ---
